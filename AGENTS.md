@@ -7,9 +7,7 @@
 ```
 src/
 ├── app/           # Rotas Next.js
-├── components/
-│   ├── ui/        # Componentes reutilizáveis
-│   └── navbar.tsx # Navbar global
+├── components/    # Componentes React
 ```
 
 ## Padrões
