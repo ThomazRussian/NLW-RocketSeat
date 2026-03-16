@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Toggle } from "@/components/ui/toggle";
+import { CodeEditor } from "@/components/ui/code-editor";
 import {
   TableRow,
   TableCell,
@@ -57,23 +58,12 @@ export default function Home() {
         </p>
       </div>
 
-      <div className="w-full max-w-[780px] border border-border rounded-md overflow-hidden">
-        <div className="flex items-center justify-between h-10 px-4 border-b border-border bg-bg-elevated">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-accent-red" />
-            <div className="w-3 h-3 rounded-full bg-accent-amber" />
-            <div className="w-3 h-3 rounded-full bg-accent-green" />
-          </div>
-          <span className="font-mono text-xs text-text-tertiary">code.js</span>
-        </div>
-        <textarea
-          value={code}
-          onChange={(e) => setCode(e.target.value)}
-          placeholder="// paste your code here..."
-          className="w-full h-[360px] p-4 bg-bg-input font-mono text-sm text-text-primary resize-none focus:outline-none placeholder:text-text-tertiary"
-          spellCheck={false}
-        />
-      </div>
+      <CodeEditor
+        className="w-full max-w-[780px]"
+        placeholder="// paste your code here..."
+        maxLines={100}
+        onCodeChange={setCode}
+      />
 
       <div className="flex items-center justify-between w-full max-w-[780px]">
         <div className="flex items-center gap-4">
