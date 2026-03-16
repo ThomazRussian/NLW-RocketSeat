@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Toggle } from "@/components/ui/toggle";
 import { CodeEditor } from "@/components/ui/code-editor";
+import { MetricsCards } from "@/components/ui/metrics-cards";
 import {
   TableRow,
   TableCell,
@@ -83,6 +84,8 @@ export default function Home() {
           $ roast_my_code
         </Button>
       </div>
+
+      <MetricsCards />
 
       <div className="h-[60px]" />
 
