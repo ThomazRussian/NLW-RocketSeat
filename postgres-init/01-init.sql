@@ -1,0 +1,2 @@
+-- Configurar autenticação para trusted (para desenvolvimento local)
+-- Este script será executado na inicialização do banco
