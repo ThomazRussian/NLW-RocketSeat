@@ -82,7 +82,7 @@ export default async function RoastResultsPage({
   const { id } = await params;
 
   return (
-    <div className="flex flex-col items-center w-full max-w-[960px] mx-auto px-10 py-10">
+    <div className="flex flex-col items-center w-full max-w-240 mx-auto px-10 py-10">
       <div className="flex flex-col gap-10 w-full">
         <div className="flex items-center gap-12">
           <ScoreRing value={STATIC_ROAST_DATA.score} size="lg" />

@@ -1,7 +1,4 @@
 import { codeToHtml } from "shiki";
-import { CodeBlockHeader } from "./code-block-header";
-
-export { CodeBlockHeader };
 
 interface CodeBlockProps {
   code: string;
@@ -30,17 +27,36 @@ export async function CodeBlock({
   });
 
   const lineCount = code.split("\n").length;
-  const isTruncated = maxLines && lineCount > maxLines;
+  const isTruncated = Boolean(maxLines && lineCount > maxLines);
 
   return (
     <div className="rounded-md border border-border overflow-hidden">
       {showHeader && (
-        <CodeBlockHeader
-          language={language}
-          filename={filename}
-          showDots={showDots}
-          lineCount={isTruncated ? maxLines : lineCount}
-        />
+        <div className="flex items-center justify-between px-4 h-10 border-b border-border bg-bg-elevated">
+          <div className="flex items-center gap-3">
+            {showDots && (
+              <div className="flex items-center gap-1.5">
+                <span className="w-3 h-3 rounded-full bg-[#FF5F56]" />
+                <span className="w-3 h-3 rounded-full bg-[#FFBD2E]" />
+                <span className="w-3 h-3 rounded-full bg-[#27C93F]" />
+              </div>
+            )}
+            {filename && (
+              <span className="font-mono text-xs text-text-secondary">
+                {filename}
+              </span>
+            )}
+            {!filename && (
+              <span className="font-mono text-xs text-text-tertiary">
+                lang: {language}
+              </span>
+            )}
+          </div>
+          <span className="font-mono text-xs text-text-tertiary">
+            {isTruncated ? maxLines : lineCount}{" "}
+            {lineCount === 1 ? "line" : "lines"}
+          </span>
+        </div>
       )}
       <div
         className="font-mono text-sm [&_pre]:!bg-transparent [&_pre]:!m-0 [&_pre]:!p-4"
@@ -49,7 +65,7 @@ export async function CodeBlock({
       {isTruncated && (
         <div className="px-4 py-2 border-t border-border bg-bg-elevated">
           <span className="font-mono text-xs text-text-tertiary">
-            ... {lineCount - maxLines} more lines
+            ... {(lineCount - (maxLines ?? 0))} more lines
           </span>
         </div>
       )}

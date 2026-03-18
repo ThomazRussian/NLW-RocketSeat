@@ -128,16 +128,72 @@ const ROAST_TEMPLATES = [
 ];
 
 const CODE_SAMPLES = [
-  `function ${faker.lorem.word()}() { ${faker.lorem.sentence()} }`,
-  `const ${faker.lorem.word()} = ${faker.lorem.word()};`,
-  `if (${faker.lorem.word()} == ${faker.lorem.word()}) { ${faker.lorem.sentence()} }`,
-  `for (let i = 0; i < ${faker.number.int({ min: 10, max: 100 })}; i++) { console.log(i); }`,
-  `async function ${faker.lorem.word()}() { return await ${faker.lorem.word()}(); }`,
-  `const ${faker.helpers.arrayElement(['arr', 'list', 'data'])} = [${Array.from({ length: faker.number.int({ min: 3, max: 10 }) }, () => faker.number.int({ min: 1, max: 100 })).join(', ')}];`,
-  `function calculate${faker.helpers.arrayElement(['Total', 'Sum', 'Average'])}(items) { return items.reduce((a, b) => a + b.price, 0); }`,
-  `const fetch${faker.helpers.arrayElement(['Data', 'User', 'Posts'])} = async () => { const res = await fetch('/api/${faker.lorem.word()}'); return res.json(); };`,
-  `class ${faker.helpers.arrayElement(['User', 'Product', 'Order'])}Service { constructor() { this.${faker.lorem.word()} = null; } }`,
-  `const handler = (event) => { if (event.target.value) { this.setState(event.target.value); } };`,
+  `function ${faker.lorem.word()}() {
+  ${faker.lorem.sentence()};
+  ${faker.lorem.sentence()};
+  ${faker.lorem.sentence()};
+}`,
+  `const ${faker.lorem.word()} = {
+  ${faker.lorem.word()}: ${faker.lorem.word()},
+  ${faker.lorem.word()}: ${faker.lorem.word()},
+  ${faker.lorem.word()}: ${faker.lorem.word()},
+};`,
+  `async function ${faker.lorem.word()}() {
+  const ${faker.lorem.word()} = await ${faker.lorem.word()}();
+  const ${faker.lorem.word()} = ${faker.lorem.word()}(${faker.lorem.word()});
+  return ${faker.lorem.word()};
+}`,
+  `for (let i = 0; i < ${faker.number.int({ min: 10, max: 100 })}; i++) {
+  console.log(i);
+  if (i % 10 === 0) {
+    ${faker.lorem.sentence()};
+  }
+}`,
+  `const ${faker.helpers.arrayElement(['arr', 'list', 'data'])} = [
+  ${Array.from({ length: faker.number.int({ min: 3, max: 6 }) }, () => `${faker.lorem.word()}: ${faker.number.int({ min: 1, max: 100 })}`).join(',\n  ')},
+];`,
+  `function calculate${faker.helpers.arrayElement(['Total', 'Sum', 'Average'])}(items) {
+  let result = 0;
+  for (let i = 0; i < items.length; i++) {
+    result += items[i].price;
+  }
+  return result;
+}`,
+  `class ${faker.helpers.arrayElement(['User', 'Product', 'Order'])}Service {
+  constructor() {
+    this.${faker.lorem.word()} = null;
+    this.${faker.lorem.word()} = [];
+  }
+  
+  ${faker.lorem.word()}() {
+    ${faker.lorem.sentence()};
+  }
+}`,
+  `const handler = (event) => {
+  if (event.target.value) {
+    this.setState(event.target.value);
+  }
+  ${faker.lorem.sentence()};
+};`,
+  `try {
+  const data = await fetch('/api/${faker.lorem.word()}');
+  const result = await data.json();
+  console.log(result);
+} catch (error) {
+  console.error('Error:', error);
+}`,
+  `function ${faker.lorem.word()}(items) {
+  return items
+    .filter(x => x.${faker.lorem.word()})
+    .map(x => ({
+      ...x,
+      ${faker.lorem.word()}: ${faker.lorem.word()}(x)
+    }))
+    .reduce((acc, curr) => {
+      acc[curr.id] = curr;
+      return acc;
+    }, {});
+}`,
 ];
 
 async function seed() {
