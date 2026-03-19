@@ -149,17 +149,17 @@ const CODE_SAMPLES = [
     ${faker.lorem.sentence()};
   }
 }`,
-  `const ${faker.helpers.arrayElement(['arr', 'list', 'data'])} = [
-  ${Array.from({ length: faker.number.int({ min: 3, max: 6 }) }, () => `${faker.lorem.word()}: ${faker.number.int({ min: 1, max: 100 })}`).join(',\n  ')},
+  `const ${faker.helpers.arrayElement(["arr", "list", "data"])} = [
+  ${Array.from({ length: faker.number.int({ min: 3, max: 6 }) }, () => `${faker.lorem.word()}: ${faker.number.int({ min: 1, max: 100 })}`).join(",\n  ")},
 ];`,
-  `function calculate${faker.helpers.arrayElement(['Total', 'Sum', 'Average'])}(items) {
+  `function calculate${faker.helpers.arrayElement(["Total", "Sum", "Average"])}(items) {
   let result = 0;
   for (let i = 0; i < items.length; i++) {
     result += items[i].price;
   }
   return result;
 }`,
-  `class ${faker.helpers.arrayElement(['User', 'Product', 'Order'])}Service {
+  `class ${faker.helpers.arrayElement(["User", "Product", "Order"])}Service {
   constructor() {
     this.${faker.lorem.word()} = null;
     this.${faker.lorem.word()} = [];
@@ -210,13 +210,13 @@ async function seed() {
 
     await db.execute(
       sql`INSERT INTO submissions (code, language, "isRoastMode", score, "roastText")
-          VALUES (${code}, ${language}, ${isRoastMode}, ${score}, ${roastText})`
+          VALUES (${code}, ${language}, ${isRoastMode}, ${score}, ${roastText})`,
     );
   }
 
-  const result = await db.execute(
-    sql`SELECT COUNT(*) as count FROM submissions`
-  ) as unknown as [{ count: string }];
+  const result = (await db.execute(
+    sql`SELECT COUNT(*) as count FROM submissions`,
+  )) as unknown as [{ count: string }];
   console.log(`✅ Seed complete! Total submissions: ${result[0].count}`);
 }
 

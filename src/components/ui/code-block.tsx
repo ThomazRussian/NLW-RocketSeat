@@ -65,7 +65,7 @@ export async function CodeBlock({
       {isTruncated && (
         <div className="px-4 py-2 border-t border-border bg-bg-elevated">
           <span className="font-mono text-xs text-text-tertiary">
-            ... {(lineCount - (maxLines ?? 0))} more lines
+            ... {lineCount - (maxLines ?? 0)} more lines
           </span>
         </div>
       )}

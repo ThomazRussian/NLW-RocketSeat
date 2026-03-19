@@ -1,103 +1,62 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { CodeExpandCell } from "@/components/ui/code-expand-cell";
 import {
-  TableRow,
   TableCell,
-  TableRankCell,
-  TableScoreCell,
-  TableCodeCell,
   TableLangCell,
+  TableRankCell,
+  TableRow,
+  TableScoreCell,
 } from "@/components/ui/table-row";
+import {
+  getLeaderboardEntries,
+  getLeaderboardStats,
+  type EntryWithHtml,
+} from "@/components/leaderboard";
 
 export const metadata: Metadata = {
   title: "Shame Leaderboard | devroast",
-  description: "The most roasted code on the internet. View the worst submissions ranked by shame.",
+  description:
+    "The most roasted code on the internet. View the worst submissions ranked by shame.",
 };
 
-const LEADERBOARD_DATA = [
-  {
-    rank: 1,
-    score: 1.2,
-    code: 'eval(prompt("enter code"))',
-    language: "javascript",
-    lines: 3,
-  },
-  {
-    rank: 2,
-    score: 2.1,
-    code: "if (password == 'password') { return true; }",
-    language: "javascript",
-    lines: 1,
-  },
-  {
-    rank: 3,
-    score: 2.8,
-    code: "const x = 1; if (x = 1) { console.log('ok'); }",
-    language: "javascript",
-    lines: 2,
-  },
-  {
-    rank: 4,
-    score: 3.1,
-    code: "for (let i = 0; i < 1000000; i++) { console.log(i); }",
-    language: "javascript",
-    lines: 1,
-  },
-  {
-    rank: 5,
-    score: 3.5,
-    code: "function bad() { eval(userInput); }",
-    language: "javascript",
-    lines: 1,
-  },
-  {
-    rank: 6,
-    score: 3.9,
-    code: "SELECT * FROM users WHERE 1=1",
-    language: "sql",
-    lines: 1,
-  },
-  {
-    rank: 7,
-    score: 4.2,
-    code: "// TODO: fix this later\nconsole.log('hack');",
-    language: "javascript",
-    lines: 2,
-  },
-  {
-    rank: 8,
-    score: 4.5,
-    code: "while(true) { fetch('/api/ping'); }",
-    language: "javascript",
-    lines: 1,
-  },
-];
+export default async function LeaderboardPage() {
+  const [entries, totalCount] = await Promise.all([
+    getLeaderboardEntries(15),
+    getLeaderboardStats(),
+  ]);
 
-const TOTAL_SUBMISSIONS = 2847;
-const AVG_SCORE = 4.2;
+  const avgScore =
+    entries.length > 0
+      ? (
+          entries.reduce((acc, entry) => acc + Number(entry.score), 0) /
+          entries.length
+        ).toFixed(1)
+      : "0.0";
 
-export default function LeaderboardPage() {
   return (
     <div className="flex flex-col items-center w-full max-w-[960px] mx-auto px-10 py-20">
       <div className="flex flex-col gap-4 w-full">
         <div className="flex items-center gap-3">
-          <span className="text-accent-green font-mono text-[32px] font-bold">&gt;</span>
+          <span className="text-accent-green font-mono text-[32px] font-bold">
+            &gt;
+          </span>
           <h1 className="text-text-primary font-mono text-[28px] font-bold">
             shame_leaderboard
           </h1>
         </div>
 
         <p className="text-text-secondary font-mono text-sm">
-          // the most roasted code on the internet
+          {/* the most roasted code on the internet */}
         </p>
 
         <div className="flex items-center gap-2">
           <span className="text-text-tertiary font-mono text-xs">
-            {TOTAL_SUBMISSIONS.toLocaleString()} submissions
+            {totalCount.toLocaleString()} submissions
           </span>
           <span className="text-text-tertiary font-mono text-xs">·</span>
           <span className="text-text-tertiary font-mono text-xs">
-            avg score: {AVG_SCORE}/10
+            avg score: {avgScore}/10
           </span>
         </div>
       </div>
@@ -109,37 +68,46 @@ export default function LeaderboardPage() {
               <span className="font-mono text-xs text-text-tertiary">rank</span>
             </TableCell>
             <TableCell width={70}>
-              <span className="font-mono text-xs text-text-tertiary">score</span>
+              <span className="font-mono text-xs text-text-tertiary">
+                score
+              </span>
             </TableCell>
             <TableCell width="fill">
               <span className="font-mono text-xs text-text-tertiary">code</span>
             </TableCell>
-            <TableCell width={100}>
+            <TableCell width={80}>
               <span className="font-mono text-xs text-text-tertiary">lang</span>
-            </TableCell>
-            <TableCell width={60}>
-              <span className="font-mono text-xs text-text-tertiary">lines</span>
             </TableCell>
           </div>
 
-          {LEADERBOARD_DATA.map((entry) => (
-            <TableRow key={entry.rank}>
-              <TableRankCell rank={entry.rank} />
-              <TableScoreCell score={entry.score} />
-              <TableCodeCell>{entry.code}</TableCodeCell>
-              <TableLangCell language={entry.language} />
-              <TableCell width={60}>
-                <span className="font-mono text-xs text-text-tertiary">
-                  {entry.lines} {entry.lines === 1 ? "line" : "lines"}
-                </span>
-              </TableCell>
-            </TableRow>
-          ))}
+          {entries.length > 0 ? (
+            entries.map((entry: EntryWithHtml, index: number) => (
+              <TableRow key={entry.id} className="overflow-hidden">
+                <TableRankCell rank={index + 1} />
+                <TableScoreCell score={Number(entry.score)} />
+                <TableCell width="fill" className="overflow-hidden">
+                  <CodeExpandCell
+                    previewHtml={entry.previewHtml}
+                    fullHtml={entry.fullHtml}
+                    needsExpansion={entry.needsExpansion}
+                    lineCount={entry.lineCount}
+                  />
+                </TableCell>
+                <TableLangCell language={entry.language} className="pl-4" />
+              </TableRow>
+            ))
+          ) : (
+            <div className="px-5 py-12 text-center border-b border-border">
+              <p className="text-text-tertiary font-mono text-sm">
+                no submissions yet. be the first to get roasted!
+              </p>
+            </div>
+          )}
         </div>
 
         <div className="flex justify-center gap-2 py-4">
           <span className="text-text-tertiary font-mono text-xs">
-            showing top {LEADERBOARD_DATA.length} of {TOTAL_SUBMISSIONS.toLocaleString()} ·
+            showing top {entries.length} of {totalCount.toLocaleString()} ·
           </span>
           <Link
             href="/"

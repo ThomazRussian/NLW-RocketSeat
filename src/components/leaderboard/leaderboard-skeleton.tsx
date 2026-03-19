@@ -3,7 +3,9 @@ export function LeaderboardSkeleton() {
     <div className="flex flex-col gap-6 w-full max-w-[960px]">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="text-accent-green font-mono text-sm font-bold">//</span>
+          <span className="text-accent-green font-mono text-sm font-bold">
+            //
+          </span>
           <span className="text-text-primary font-mono text-sm font-bold">
             shame_leaderboard
           </span>

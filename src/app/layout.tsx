@@ -21,7 +21,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <body className={`${jetbrainsMono.variable} bg-bg-page text-text-primary`}>
+      <body
+        className={`${jetbrainsMono.variable} bg-bg-page text-text-primary`}
+      >
         <TRPCReactProvider>
           <Navbar />
           <main className="min-h-screen">{children}</main>

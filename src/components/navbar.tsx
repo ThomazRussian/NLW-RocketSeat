@@ -4,7 +4,9 @@ export function Navbar() {
   return (
     <nav className="flex items-center justify-between h-14 px-10 border-b border-border bg-bg-page">
       <Link href="/" className="flex items-center gap-2">
-        <span className="text-accent-green font-mono text-xl font-bold">&gt;</span>
+        <span className="text-accent-green font-mono text-xl font-bold">
+          &gt;
+        </span>
         <span className="text-text-primary font-mono text-lg font-medium">
           devroast
         </span>

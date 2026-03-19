@@ -18,7 +18,7 @@ const MOCK_ROASTS = [
 export async function submitCode(
   code: string,
   language: string,
-  isRoastMode: boolean
+  isRoastMode: boolean,
 ): Promise<Submission> {
   const score = (Math.random() * 10).toFixed(1);
   const roastText = isRoastMode
@@ -28,7 +28,7 @@ export async function submitCode(
   const result = await db.execute(
     sql`INSERT INTO submissions (code, language, "isRoastMode", score, "roastText")
      VALUES (${code}, ${language}, ${isRoastMode}, ${score}, ${roastText})
-     RETURNING id, code, language, "isRoastMode", score, "roastText", "createdAt"`
+     RETURNING id, code, language, "isRoastMode", score, "roastText", "createdAt"`,
   );
 
   return result[0] as unknown as Submission;
@@ -39,7 +39,7 @@ export async function getLeaderboard(limit = 10): Promise<Submission[]> {
     sql`SELECT id, code, language, "isRoastMode", score, "roastText", "createdAt"
      FROM submissions
      ORDER BY score ASC
-     LIMIT ${limit}`
+     LIMIT ${limit}`,
   );
 
   return result as unknown as Submission[];
@@ -47,7 +47,7 @@ export async function getLeaderboard(limit = 10): Promise<Submission[]> {
 
 export async function getAllSubmissionsCount(): Promise<number> {
   const result = await db.execute(
-    sql`SELECT COUNT(*) as count FROM submissions`
+    sql`SELECT COUNT(*) as count FROM submissions`,
   );
   const row = result[0] as unknown as { count: string };
   return parseInt(row.count, 10);

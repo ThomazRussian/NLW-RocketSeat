@@ -8,8 +8,9 @@ export function MetricsCards() {
   const trpc = useTRPC();
   const { data } = useQuery(
     trpc.metrics.getMetrics.queryOptions(undefined, {
-      placeholderData: (previousData) => previousData ?? { totalSubmissions: 0, averageScore: 0 },
-    })
+      placeholderData: (previousData) =>
+        previousData ?? { totalSubmissions: 0, averageScore: 0 },
+    }),
   );
 
   return (

@@ -30,14 +30,16 @@ export function CodeSubmit() {
     <div className="flex flex-col items-center gap-8 w-full max-w-[780px]">
       <div className="flex flex-col items-center gap-3 w-full">
         <div className="flex items-center gap-3">
-          <span className="text-accent-green font-mono text-4xl font-bold">$</span>
+          <span className="text-accent-green font-mono text-4xl font-bold">
+            $
+          </span>
           <h1 className="text-text-primary font-mono text-4xl font-bold">
             paste your code. get roasted.
           </h1>
         </div>
         <p className="text-text-secondary font-mono text-sm">
-          // drop your code below and we&apos;ll rate it — brutally honest or full
-          roast mode
+          // drop your code below and we&apos;ll rate it — brutally honest or
+          full roast mode
         </p>
       </div>
 

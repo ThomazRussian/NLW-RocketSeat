@@ -18,9 +18,5 @@ export const trpc = createTRPCOptionsProxy({
 export { caller };
 
 export function HydrateClient(props: { children: React.ReactNode }) {
-  return (
-    <div suppressHydrationWarning>
-      {props.children}
-    </div>
-  );
+  return <div suppressHydrationWarning>{props.children}</div>;
 }

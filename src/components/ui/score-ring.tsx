@@ -29,7 +29,10 @@ export const ScoreRing = forwardRef<HTMLDivElement, ScoreRingProps>(
     return (
       <div
         ref={ref}
-        className={twMerge("relative inline-flex items-center justify-center", className)}
+        className={twMerge(
+          "relative inline-flex items-center justify-center",
+          className,
+        )}
         style={{ width: dimension, height: dimension }}
         {...props}
       >

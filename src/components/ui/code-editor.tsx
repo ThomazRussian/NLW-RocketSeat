@@ -51,7 +51,8 @@ export function CodeEditor({
   ...props
 }: CodeEditorProps) {
   const [inputCode, setInputCode] = useState("");
-  const [highlightedState, setHighlightedState] = useState<HighlightedState>(null);
+  const [highlightedState, setHighlightedState] =
+    useState<HighlightedState>(null);
   const [showHighlight, setShowHighlight] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [detectedLanguage, setDetectedLanguage] = useState<string>("");
@@ -61,64 +62,86 @@ export function CodeEditor({
     return result.language || FALLBACK_LANGUAGE;
   }, []);
 
-  const highlightCode = useCallback(async (code: string, language?: string) => {
-    const lang = language || detectLanguage(code);
-    setDetectedLanguage(lang);
-    
-    const lines = code.split("\n");
-    const truncatedCode = lines.length > maxLines
-      ? lines.slice(0, maxLines).join("\n")
-      : code;
+  const highlightCode = useCallback(
+    async (code: string, language?: string) => {
+      const lang = language || detectLanguage(code);
+      setDetectedLanguage(lang);
 
-    setHighlightedState({ code: truncatedCode, language: lang, highlightedHtml: "" });
-    
-    setIsLoading(true);
-    
-    try {
-      const highlightedHtml = await codeToHtml(truncatedCode, {
-        lang: lang === FALLBACK_LANGUAGE ? "text" : lang,
-        theme: theme === "dark" ? "vesper" : "github-light",
+      const lines = code.split("\n");
+      const truncatedCode =
+        lines.length > maxLines ? lines.slice(0, maxLines).join("\n") : code;
+
+      setHighlightedState({
+        code: truncatedCode,
+        language: lang,
+        highlightedHtml: "",
       });
 
-      setHighlightedState({ code: truncatedCode, language: lang, highlightedHtml });
-    } catch {
-      const fallbackHtml = await codeToHtml(truncatedCode, {
-        lang: "text",
-        theme: theme === "dark" ? "vesper" : "github-light",
-      });
-      setHighlightedState({ code: truncatedCode, language: lang, highlightedHtml: fallbackHtml });
-    } finally {
-      setIsLoading(false);
-    }
-  }, [detectLanguage, maxLines, theme]);
+      setIsLoading(true);
 
-  const handlePaste = useCallback((e: React.ClipboardEvent<HTMLTextAreaElement>) => {
-    e.preventDefault();
-    const pastedText = e.clipboardData.getData("text");
-    
-    setInputCode(pastedText);
-    highlightCode(pastedText);
-    setShowHighlight(true);
-    onCodeChange?.(pastedText);
-  }, [highlightCode, onCodeChange]);
+      try {
+        const highlightedHtml = await codeToHtml(truncatedCode, {
+          lang: lang === FALLBACK_LANGUAGE ? "text" : lang,
+          theme: theme === "dark" ? "vesper" : "github-light",
+        });
 
-  const handleChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const value = e.target.value;
-    setInputCode(value);
-    
-    if (showHighlight && highlightedState) {
-      highlightCode(value, highlightedState.language);
-    }
-    onCodeChange?.(value);
-  }, [highlightedState, highlightCode, showHighlight, onCodeChange]);
+        setHighlightedState({
+          code: truncatedCode,
+          language: lang,
+          highlightedHtml,
+        });
+      } catch {
+        const fallbackHtml = await codeToHtml(truncatedCode, {
+          lang: "text",
+          theme: theme === "dark" ? "vesper" : "github-light",
+        });
+        setHighlightedState({
+          code: truncatedCode,
+          language: lang,
+          highlightedHtml: fallbackHtml,
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [detectLanguage, maxLines, theme],
+  );
 
-  const codeLines = showHighlight && highlightedState 
-    ? highlightedState.code.split("\n")
-    : inputCode.split("\n");
+  const handlePaste = useCallback(
+    (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
+      e.preventDefault();
+      const pastedText = e.clipboardData.getData("text");
+
+      setInputCode(pastedText);
+      highlightCode(pastedText);
+      setShowHighlight(true);
+      onCodeChange?.(pastedText);
+    },
+    [highlightCode, onCodeChange],
+  );
+
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      const value = e.target.value;
+      setInputCode(value);
+
+      if (showHighlight && highlightedState) {
+        highlightCode(value, highlightedState.language);
+      }
+      onCodeChange?.(value);
+    },
+    [highlightedState, highlightCode, showHighlight, onCodeChange],
+  );
+
+  const codeLines =
+    showHighlight && highlightedState
+      ? highlightedState.code.split("\n")
+      : inputCode.split("\n");
 
   const displayedLines = codeLines.slice(0, maxLines);
-  const displayLanguage = detectedLanguage || (highlightedState?.language || "");
-  const languageLabel = LANGUAGE_LABELS[displayLanguage.toLowerCase()] || displayLanguage;
+  const displayLanguage = detectedLanguage || highlightedState?.language || "";
+  const languageLabel =
+    LANGUAGE_LABELS[displayLanguage.toLowerCase()] || displayLanguage;
 
   return (
     <div className={className} {...props}>
@@ -136,7 +159,9 @@ export function CodeEditor({
               <span>{languageLabel}</span>
             </div>
           ) : (
-            <span className="font-mono text-xs text-text-tertiary">code.js</span>
+            <span className="font-mono text-xs text-text-tertiary">
+              code.js
+            </span>
           )}
         </div>
 
@@ -149,7 +174,7 @@ export function CodeEditor({
                 </span>
               ))}
             </div>
-            
+
             {isLoading ? (
               <div className="ml-12 p-4 font-mono text-sm text-text-primary whitespace-pre-wrap">
                 {highlightedState.code}
@@ -157,10 +182,12 @@ export function CodeEditor({
             ) : (
               <div
                 className="ml-12 p-4 font-mono text-sm text-text-primary [&_pre]:!bg-transparent [&_pre]:!m-0 [&_pre]:!p-0 [&_pre]:!overflow-visible [&_span]:!leading-[1.5]"
-                dangerouslySetInnerHTML={{ __html: highlightedState.highlightedHtml }}
+                dangerouslySetInnerHTML={{
+                  __html: highlightedState.highlightedHtml,
+                }}
               />
             )}
-            
+
             <textarea
               value={inputCode}
               onChange={handleChange}

@@ -10,7 +10,10 @@ export const TableRow = forwardRef<HTMLDivElement, TableRowProps>(
     return (
       <div
         ref={ref}
-        className={twMerge("flex items-center border-b border-border px-5 py-4", className)}
+        className={twMerge(
+          "flex items-center border-b border-border px-5 py-4",
+          className,
+        )}
         {...props}
       >
         {children}

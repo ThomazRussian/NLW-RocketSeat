@@ -1,7 +1,10 @@
 import { Suspense } from "react";
 import { CodeSubmit } from "@/components/code-submit";
 import { MetricsCards } from "@/components/ui/metrics-cards";
-import { LeaderboardSection, LeaderboardSkeleton } from "@/components/leaderboard";
+import {
+  LeaderboardSection,
+  LeaderboardSkeleton,
+} from "@/components/leaderboard";
 
 export default function Home() {
   return (

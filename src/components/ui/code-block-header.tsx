@@ -10,7 +10,10 @@ interface CodeBlockHeaderProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 export const CodeBlockHeader = forwardRef<HTMLDivElement, CodeBlockHeaderProps>(
-  ({ language, filename, showDots = true, lineCount, className, ...props }, ref) => {
+  (
+    { language, filename, showDots = true, lineCount, className, ...props },
+    ref,
+  ) => {
     return (
       <div
         ref={ref}
@@ -29,10 +32,14 @@ export const CodeBlockHeader = forwardRef<HTMLDivElement, CodeBlockHeaderProps>(
             </div>
           )}
           {filename && (
-            <span className="font-mono text-xs text-text-secondary">{filename}</span>
+            <span className="font-mono text-xs text-text-secondary">
+              {filename}
+            </span>
           )}
           {language && !filename && (
-            <span className="font-mono text-xs text-text-tertiary">lang: {language}</span>
+            <span className="font-mono text-xs text-text-tertiary">
+              lang: {language}
+            </span>
           )}
         </div>
         {lineCount !== undefined && (

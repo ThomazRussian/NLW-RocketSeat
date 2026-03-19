@@ -2,7 +2,7 @@ import { z } from "zod";
 import { baseProcedure, createTRPCRouter } from "../init";
 import { db } from "@/db";
 import { submissions } from "@/db/schema";
-import { eq, asc } from "drizzle-orm";
+import { eq, asc, count } from "drizzle-orm";
 
 export const submissionsRouter = createTRPCRouter({
   getLeaderboard: baseProcedure
@@ -40,10 +40,8 @@ export const submissionsRouter = createTRPCRouter({
     }),
 
   getCount: baseProcedure.query(async () => {
-    const [result] = await db
-      .select({ count: submissions.id })
-      .from(submissions);
+    const [result] = await db.select({ count: count() }).from(submissions);
 
-    return result ? 1 : 0;
+    return Number(result?.count ?? 0);
   }),
 });

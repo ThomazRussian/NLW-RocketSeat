@@ -39,9 +39,7 @@ export function CodePreview({
               isExpanded ? "rotate-180" : ""
             }`}
           />
-          {isExpanded
-            ? "$ collapse"
-            : "$ expand"}
+          {isExpanded ? "$ collapse" : "$ expand"}
         </button>
       )}
     </div>

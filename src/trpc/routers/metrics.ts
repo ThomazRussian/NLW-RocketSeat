@@ -5,9 +5,7 @@ import { count, avg } from "drizzle-orm";
 
 export const metricsRouter = createTRPCRouter({
   getMetrics: baseProcedure.query(async () => {
-    const [countResult] = await db
-      .select({ count: count() })
-      .from(submissions);
+    const [countResult] = await db.select({ count: count() }).from(submissions);
 
     const [avgResult] = await db
       .select({ avg: avg(submissions.score) })

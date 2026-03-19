@@ -1,8 +1,16 @@
 "use server";
 
-import { submitCode, getLeaderboard, getAllSubmissionsCount } from "@/lib/queries";
+import {
+  submitCode,
+  getLeaderboard,
+  getAllSubmissionsCount,
+} from "@/lib/queries";
 
-export async function submitCodeAction(code: string, language: string, isRoastMode: boolean) {
+export async function submitCodeAction(
+  code: string,
+  language: string,
+  isRoastMode: boolean,
+) {
   return submitCode(code, language, isRoastMode);
 }
 

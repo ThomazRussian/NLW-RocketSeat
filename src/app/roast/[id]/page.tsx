@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import { ScoreRing } from "@/components/ui/score-ring";
 import { CodeBlock } from "@/components/ui/code-block";
-import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 
 export const metadata: Metadata = {
   title: "Roast Results | devroast",
@@ -12,7 +17,8 @@ const STATIC_ROAST_DATA = {
   id: "abc123-def456-ghi789",
   score: 3.5,
   verdict: "needs_serious_help",
-  roastQuote: "this code looks like it was written during a power outage... in 2005.",
+  roastQuote:
+    "this code looks like it was written during a power outage... in 2005.",
   language: "javascript",
   lines: 7,
   submittedCode: `function calculateTotal(items) {
@@ -88,8 +94,12 @@ export default async function RoastResultsPage({
           <ScoreRing value={STATIC_ROAST_DATA.score} size="lg" />
           <div className="flex flex-col gap-4 flex-1">
             <div className="flex items-center gap-2">
-              <span className={`w-2 h-2 rounded-full ${getVerdictColor(STATIC_ROAST_DATA.verdict)}`} />
-              <span className={`font-mono text-sm font-medium ${getVerdictColor(STATIC_ROAST_DATA.verdict).replace("bg-", "text-")}`}>
+              <span
+                className={`w-2 h-2 rounded-full ${getVerdictColor(STATIC_ROAST_DATA.verdict)}`}
+              />
+              <span
+                className={`font-mono text-sm font-medium ${getVerdictColor(STATIC_ROAST_DATA.verdict).replace("bg-", "text-")}`}
+              >
                 verdict: {STATIC_ROAST_DATA.verdict}
               </span>
             </div>
@@ -113,8 +123,12 @@ export default async function RoastResultsPage({
 
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-2">
-            <span className="text-accent-green font-mono text-sm font-bold">&gt;</span>
-            <span className="text-text-primary font-mono text-sm font-bold">submitted_code</span>
+            <span className="text-accent-green font-mono text-sm font-bold">
+              &gt;
+            </span>
+            <span className="text-text-primary font-mono text-sm font-bold">
+              submitted_code
+            </span>
           </div>
           <CodeBlock
             code={STATIC_ROAST_DATA.submittedCode}
@@ -127,18 +141,26 @@ export default async function RoastResultsPage({
 
         <div className="flex flex-col gap-6">
           <div className="flex items-center gap-2">
-            <span className="text-accent-green font-mono text-sm font-bold">&gt;</span>
-            <span className="text-text-primary font-mono text-sm font-bold">analysis</span>
+            <span className="text-accent-green font-mono text-sm font-bold">
+              &gt;
+            </span>
+            <span className="text-text-primary font-mono text-sm font-bold">
+              analysis
+            </span>
           </div>
           <div className="grid grid-cols-2 gap-5">
             {STATIC_ROAST_DATA.issues.map((issue, index) => (
               <Card key={index}>
                 <CardHeader>
                   <div className="flex items-center gap-2">
-                    <span className={`font-mono text-sm ${getIssueColor(issue.type)}`}>
+                    <span
+                      className={`font-mono text-sm ${getIssueColor(issue.type)}`}
+                    >
                       {getIssueIcon(issue.type)}
                     </span>
-                    <CardTitle className="font-mono text-sm">{issue.title}</CardTitle>
+                    <CardTitle className="font-mono text-sm">
+                      {issue.title}
+                    </CardTitle>
                   </div>
                   <CardDescription className="font-mono text-xs">
                     {issue.description}
@@ -153,8 +175,12 @@ export default async function RoastResultsPage({
 
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-2">
-            <span className="text-accent-green font-mono text-sm font-bold">&gt;</span>
-            <span className="text-text-primary font-mono text-sm font-bold">improved_code</span>
+            <span className="text-accent-green font-mono text-sm font-bold">
+              &gt;
+            </span>
+            <span className="text-text-primary font-mono text-sm font-bold">
+              improved_code
+            </span>
           </div>
           <CodeBlock
             code={STATIC_ROAST_DATA.improvedCode}
